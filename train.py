@@ -160,12 +160,12 @@ if __name__ == "__main__":
         for k, v in model.policy.state_dict().items()
     }
     for i in range(8):
-            upd_queue = multiprocessing.Queue(maxsize=10000)
-            tmp_worker = Worker(i, update_queue=upd_queue, transition_queue=transition_queue, model_state=model_state)
-            p = multiprocessing.Process(target=tmp_worker.work)
-            update_queues.append(upd_queue)
-            p.start()
-            workers.append(p)
+        upd_queue = multiprocessing.Queue(maxsize=10000)
+        tmp_worker = Worker(i, update_queue=upd_queue, transition_queue=transition_queue, model_state=model_state)
+        p = multiprocessing.Process(target=tmp_worker.work)
+        update_queues.append(upd_queue)
+        p.start()
+        workers.append(p)
     batch_size = 64
     max_transitions = 100000
     count = 0
@@ -182,8 +182,8 @@ if __name__ == "__main__":
                 for k, v in model.policy.state_dict().items()
             }
             #model.logger.dump(step=count)
-            for uq in update_queues:
-                uq.put(model_state)
+        for uq in update_queues:
+            uq.put(model_state)
     for worker in workers:
         worker.terminate()
     for worker in workers:
